@@ -51,7 +51,7 @@ pipeline {
             }
         }  
           
-    post {
+        post {
             success {
                 emailext (
                     subject: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
@@ -68,5 +68,5 @@ pipeline {
                     to: 'ted.fenn@concanon.com'
                 )
             }    
-    }
+        }
 }
