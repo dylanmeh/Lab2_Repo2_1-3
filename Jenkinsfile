@@ -17,11 +17,18 @@ pipeline {
   }
   
   stages {
-        stage ('build') {
+    
+        stage('startTime stage') {
+            steps {
+               buildStart()
+            }
+        }  
+      
+        stage('clean and build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
             }
-    }
+        }
         stage('Test') {
             steps {
                 sh 'mvn test'
@@ -32,12 +39,18 @@ pipeline {
                 }
             }
         }
-        stage ('deploy') {
+        stage('deploy') {
             steps {
                 sh './scripts/deliver.sh'
-                }
+            }
         }
-    }
+    
+        stage('endTime stage') {
+            steps {
+                buildEnd()
+            }
+        }  
+          
     post {
             success {
                 emailext (
@@ -53,7 +66,7 @@ pipeline {
                     body: """FAULURE: Job '${JOB_NAME} [${BUILD_NUMBER}]':
                     Check console output at ${BUILD_URL}""",
                     to: 'ted.fenn@concanon.com'
-            )
-        }    
+                )
+            }    
     }
 }
