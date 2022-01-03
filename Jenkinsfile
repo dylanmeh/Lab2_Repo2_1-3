@@ -50,7 +50,7 @@ pipeline {
                 buildEnd()
             }
         }  
-          
+  }      
         post {
             success {
                 emailext (
@@ -69,4 +69,5 @@ pipeline {
                 )
             }    
         }
+  }
 }
